@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cuenta Regresiva a Vacaciones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #74ebd5, #acb6e5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    #contador {
+      font-size: 4em;
+      font-weight: bold;
+    }
+    small {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>¡Tus vacaciones están cerca!</h1>
+  <div id="contador">Cargando...</div>
+  <small>Vacaciones: 19 de julio de 2025</small>
+
+  <script>
+    function actualizarContador() {
+      const hoy = new Date();
+      const fechaVacaciones = new Date("2025-07-19T00:00:00");
+      const diferencia = fechaVacaciones - hoy;
+
+      if (diferencia > 0) {
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        document.getElementById("contador").textContent = dias + " días";
+      } else {
+        document.getElementById("contador").textContent = "¡Ya estás de vacaciones!";
+      }
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000 * 60 * 60); // Actualiza cada hora
+  </script>
+</body>
+</html>
