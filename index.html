@@ -1,107 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contador de Vacaciones</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(to right, #f9f9f9, #e0f7fa);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Faltan para mis vacaciones!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* Un azul claro */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #0056b3; /* Un azul más oscuro */
+            margin-bottom: 30px;
+        }
+        #contador {
+            font-size: 3.5em; /* Tamaño grande para el contador */
+            font-weight: bold;
+            color: #28a745; /* Un verde vibrante */
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite; /* Animación para que sea más llamativo */
+        }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 40px;
-      color: #00796b;
-    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-    .contador {
-      display: flex;
-      gap: 20px;
-    }
+        .mensaje {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: #555;
+        }
 
-    .unidad {
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: center;
-      min-width: 100px;
-    }
-
-    .numero {
-      font-size: 2.5rem;
-      color: #ff5722;
-      font-weight: bold;
-    }
-
-    .etiqueta {
-      font-size: 1rem;
-      color: #333;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-      .contador {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-  </style>
+        /* Estilos responsivos */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            #contador {
+                font-size: 2.5em;
+                padding: 15px 30px;
+            }
+            .mensaje {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>¡Cuenta regresiva para tus vacaciones!</h1>
-  <div class="contador">
-    <div class="unidad">
-      <div class="numero" id="dias">0</div>
-      <div class="etiqueta">Días</div>
-    </div>
-    <div class="unidad">
-      <div class="numero" id="horas">0</div>
-      <div class="etiqueta">Horas</div>
-    </div>
-    <div class="unidad">
-      <div class="numero" id="minutos">0</div>
-      <div class="etiqueta">Minutos</div>
-    </div>
-    <div class="unidad">
-      <div class="numero" id="segundos">0</div>
-      <div class="etiqueta">Segundos</div>
-    </div>
-  </div>
+    <h1>¡Faltan para mis vacaciones!</h1>
+    <div id="contador"></div>
+    <p class="mensaje">¡El 19 de julio está cada vez más cerca!</p>
 
-  <script>
-    function actualizarContador() {
-      const fechaVacaciones = new Date("2024-07-19T00:00:00");
-      const ahora = new Date();
-      const diferencia = fechaVacaciones - ahora;
+    <script>
+        // Fecha de tus vacaciones (19 de julio del año actual)
+        const fechaVacaciones = new Date("July 19, 2025 00:00:00").getTime();
 
-      if (diferencia <= 0) {
-        document.querySelector(".contador").innerHTML = "<h2>¡Ya estás de vacaciones! 🎉</h2>";
-        return;
-      }
+        const actualizarContador = setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = fechaVacaciones - ahora;
 
-      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-      const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-      const segundos = Math.floor((diferencia / 1000) % 60);
+            // Cálculos para días, horas, minutos y segundos
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
 
-      document.getElementById("dias").innerText = dias;
-      document.getElementById("horas").innerText = horas;
-      document.getElementById("minutos").innerText = minutos;
-      document.getElementById("segundos").innerText = segundos;
-    }
+            // Muestra el resultado en el elemento con id "contador"
+            document.getElementById("contador").innerHTML =
+                dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
 
-    actualizarContador();
-    setInterval(actualizarContador, 1000);
-  </script>
+            // Si la cuenta regresiva termina
+            if (distancia < 0) {
+                clearInterval(actualizarContador);
+                document.getElementById("contador").innerHTML = "¡Es hoy! ¡Disfruta tus vacaciones!";
+            }
+        }, 1000); // Actualiza cada 1 segundo
+    </script>
 </body>
 </html>
-
