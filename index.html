@@ -3,55 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cuenta Regresiva a Vacaciones</title>
+  <title>Contador de Vacaciones</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #74ebd5, #acb6e5);
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
-      color: #333;
+      background: linear-gradient(to right, #f9f9f9, #e0f7fa);
     }
+
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #00796b;
     }
-    #contador {
-      font-size: 4em;
+
+    .contador {
+      display: flex;
+      gap: 20px;
+    }
+
+    .unidad {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .numero {
+      font-size: 2.5rem;
+      color: #ff5722;
       font-weight: bold;
     }
-    small {
+
+    .etiqueta {
+      font-size: 1rem;
+      color: #333;
       margin-top: 10px;
-      font-size: 0.9em;
-      color: #444;
+    }
+
+    @media (max-width: 600px) {
+      .contador {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>¡Tus vacaciones están cerca!</h1>
-  <div id="contador">Cargando...</div>
-  <small>Vacaciones: 19 de julio de 2025</small>
+  <h1>¡Cuenta regresiva para tus vacaciones!</h1>
+  <div class="contador">
+    <div class="unidad">
+      <div class="numero" id="dias">0</div>
+      <div class="etiqueta">Días</div>
+    </div>
+    <div class="unidad">
+      <div class="numero" id="horas">0</div>
+      <div class="etiqueta">Horas</div>
+    </div>
+    <div class="unidad">
+      <div class="numero" id="minutos">0</div>
+      <div class="etiqueta">Minutos</div>
+    </div>
+    <div class="unidad">
+      <div class="numero" id="segundos">0</div>
+      <div class="etiqueta">Segundos</div>
+    </div>
+  </div>
 
   <script>
     function actualizarContador() {
-      const hoy = new Date();
-      const fechaVacaciones = new Date("2025-07-19T00:00:00");
-      const diferencia = fechaVacaciones - hoy;
+      const fechaVacaciones = new Date("2024-07-19T00:00:00");
+      const ahora = new Date();
+      const diferencia = fechaVacaciones - ahora;
 
-      if (diferencia > 0) {
-        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-        document.getElementById("contador").textContent = dias + " días";
-      } else {
-        document.getElementById("contador").textContent = "¡Ya estás de vacaciones!";
+      if (diferencia <= 0) {
+        document.querySelector(".contador").innerHTML = "<h2>¡Ya estás de vacaciones! 🎉</h2>";
+        return;
       }
+
+      const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+      const segundos = Math.floor((diferencia / 1000) % 60);
+
+      document.getElementById("dias").innerText = dias;
+      document.getElementById("horas").innerText = horas;
+      document.getElementById("minutos").innerText = minutos;
+      document.getElementById("segundos").innerText = segundos;
     }
 
     actualizarContador();
-    setInterval(actualizarContador, 1000 * 60 * 60); // Actualiza cada hora
+    setInterval(actualizarContador, 1000);
   </script>
 </body>
 </html>
+
